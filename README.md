@@ -25,18 +25,18 @@ OF THE POSSIBILITY OF SUCH LIABILITY.
 # sdp-customization-sumologic
 
 ## Objective:
-	Allow LogFowarder to send logs to SumoLogic Securely
+Allow LogFowarder to send logs to SumoLogic Securely
 
 ### Issue:
-	At this time SumoLogic does not support receiving TLS data directly with a Syslog Source
+At this time SumoLogic does not support receiving TLS data directly with a Syslog Source
 
 ### Resolution:
-	Customization will install SumoLogic collector on the LogForwarder. This will enable logs to be sent to 127.0.0.1 without TLS, looping back to the collector which then digests the data and sends it to SumoLogic directly using the installation token and any other encryption methods implemented by SumoLogic
+Customization will install SumoLogic collector on the LogForwarder. This will enable logs to be sent to 127.0.0.1 without TLS, looping back to the collector which then digests the data and sends it to SumoLogic directly using the installation token and any other encryption methods implemented by SumoLogic
 
 ## Requirements:
-	LogFowarder has outbound internet access to the SumoLogic download address (default: https://collectors.sumologic.com/rest/download/linux/64 , all options listed here )
-	A SumoLogic installation token that has been generated for use by this tool ( https://help.sumologic.com/Manage/Security/Installation_Tokens ) 
-	Administrative access to the AppGate Admin Portal
+- LogFowarder has outbound internet access to the SumoLogic download address (default: https://collectors.sumologic.com/rest/download/linux/64 , all options listed here )
+- A SumoLogic installation token that has been generated for use by this tool ( https://help.sumologic.com/Manage/Security/Installation_Tokens ) 
+- Administrative access to the AppGate Admin Portal
 
 ## Configuration:
 ### Update Package For Your Environment
@@ -81,3 +81,6 @@ OF THE POSSIBILITY OF SUCH LIABILITY.
 ### Optional Configuration:
 - The collector is installed with the provided source file. Any changes to the source definition will only persist if done in the ‘/data/syslog.json’ file of the customization
 - This file can also be replaced/renamed by updating line 11 in “/data/settings.config”
+
+## Note:
+When collector is reinstalled it creates a new instance with a unique id in SumoLogic. The 'source' still has the originally provided name so the data can still be aggregated in searches
