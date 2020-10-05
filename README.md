@@ -34,7 +34,9 @@ At this time SumoLogic does not support receiving TLS data directly with a Syslo
 Customization will install SumoLogic collector on the LogForwarder. This will enable logs to be sent to 127.0.0.1 without TLS, looping back to the collector which then digests the data and sends it to SumoLogic directly using the installation token and any other encryption methods implemented by SumoLogic
 
 ## Requirements:
-- LogFowarder has outbound internet access to the SumoLogic download address (default: https://collectors.sumologic.com/rest/download/linux/64 , all options listed here )
+- LogFowarder has outbound internet access to the SumoLogic download address 
+	* default: https://collectors.sumologic.com/rest/download/linux/64
+	* List of all options: https://help.sumologic.com/03Send-Data/Installed-Collectors/05Reference-Information-for-Collector-Installation/02Download-a-Collector-from-a-Static-URL
 - A SumoLogic installation token that has been generated for use by this tool ( https://help.sumologic.com/Manage/Security/Installation_Tokens ) 
 - Administrative access to the AppGate Admin Portal
 
