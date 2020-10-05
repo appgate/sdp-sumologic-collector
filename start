@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# © 2020, Cyxtera Cybersecurity, Inc. d/b/a AppGate.  All rights reserved.
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met: (a) redistributions
+# of source code must retain the above copyright notice, this list of conditions
+# and the disclaimer below, and (b) redistributions in binary form must reproduce
+# the above copyright notice, this list of conditions and the disclaimer below in
+# the documentation and/or other materials provided with the distribution.
+# THE CODE AND SCRIPTS POSTED ON THIS WEBSITE ARE PROVIDED ON AN "AS IS" BASIS AND
+# YOUR USE OF SUCH CODE AND/OR SCRIPTS IS AT YOUR OWN RISK.  APPGATE DISCLAIMS ALL
+# EXPRESS AND IMPLIED WARRANTIES, EITHER IN FACT OR BY OPERATION OF LAW, STATUTORY
+# OR OTHERWISE, INCLUDING, BUT NOT LIMITED TO, ALL WARRANTIES OF MERCHANTABILITY,
+# TITLE, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, COMPLETENESS,
+# COMPATABILITY OF SOFTWARE OR EQUIPMENT OR ANY RESULTS TO BE ACHIEVED THEREFROM.
+# APPGATE DOES NOT WARRANT THAT SUCH CODE AND/OR SCRIPTS ARE OR WILL BE ERROR-FREE.
+# IN NO EVENT SHALL APPGATE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# RELIANCE, EXEMPLARY, PUNITIVE OR CONSEQUENTIAL DAMAGES, OR ANY LOSS OF GOODWILL, 
+# LOSS OF ANTICIPATED SAVINGS, COST OF PURCHASING REPLACEMENT SERVICES, LOSS OF 
+# PROFITS, REVENUE, DATA OR DATA USE, ARISING IN ANY WAY OUT OF THE USE AND/OR
+# REDISTRIBUTION OF SUCH CODE AND/OR SCRIPTS, REGARDLESS OF THE LEGAL THEORY UNDER
+# WHICH SUCH LIABILITY IS ASSERTED AND REGARDLESS OF WHETHER APPGATE HAS BEEN ADVISED
+# OF THE POSSIBILITY OF SUCH LIABILITY.
+
+###########
+#internal setting
+BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
+
+#load config
+source "${BASE_DIR}/data/settings.config"
+
+logfile="${BASE_DIR}/data/logs"
+#If the status is "stopped" you can restart the Collector by running #./collector start. 
+
+if [[ -d $SUMO_DIR ]];then
+	state=$(cat "${SUMO_DIR}/collector.status")
+	if [[ $state != "STARTED" ]];then
+		"${SUMO_DIR}/collector" start
+	fi
+elif [[ "${use_web_address_install}" == "true" ]]; then
+	collector_script="${BASE_DIR}/data/SumoCollector.sh"
+	wget $web_address -O $collector_script && chmod +x $collector_script
+	
+	#Parameters( https://help.sumologic.com/03Send-Data/Installed-Collectors/05Reference-Information-for-Collector-Installation/06Parameters-for-the-Command-Line-Installer )
+	$collector_script -q -Vsumo.token_and_url=$collector_token_string -Vcollector.name=$collector_name -dir $SUMO_DIR -Vcollector.secureFiles=false -Vsources="${BASE_DIR}/data/${source_filename}"
+##
+# SumoCollector deb package too large to use in customization
+#elif [[ "${local_package_name}" == "true" ]]; then
+#	dpkg -i "${BASE_DIR}\data\${package_name}"
+#	decoded=$(echo $collector_token_string | base64 -d | sed 's/http/\nhttp/g')
+#	readarray -t settings <<<"$decoded"
+#	
+#	sumo_token=$(echo "${settings[0]}")
+#	sumo_url=$(echo "${settings[1]}")
+#	
+#	cat > "${SUMO_DIR}/config" <<- EOM
+#name=$collector_name
+#url=$sumo_url
+#token=$sumo_token
+#EOM
+#
+else
+	echo "Sumo is not installed and no install method was selected"
+fi

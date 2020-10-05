@@ -1,0 +1,19 @@
+{
+  "api.version":"v1",
+  "source":{
+    "name":"SDP_Forwarder_Syslog",
+    "automaticDateParsing":true,
+    "multilineProcessingEnabled":false,
+    "useAutolineMatching":false,
+    "forceTimeZone":false,
+    "filters":[],
+    "cutoffTimestamp":0,
+    "encoding":"UTF-8",
+    "fields":{
+      
+    },
+    "protocol":"TCP",
+    "port":514,
+    "sourceType":"Syslog"
+  }
+}
