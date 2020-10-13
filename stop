@@ -33,10 +33,4 @@ logfile="${BASE_DIR}/data/logs"
 #If the status is "stopped" you can restart the Collector by running #./collector start. 
 
 
-if [[ "${use_web_address_install}" == "true" ]]; then
-	"${SUMO_DIR}/uninstall" -q
-##
-# SumoCollector deb package too large to use in customization
-#elif [[ "${local_package_name}" == "true" ]]; then
-#	dpkg -r SumoCollector
-fi
+"${SUMO_DIR}/uninstall" -q

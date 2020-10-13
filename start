@@ -37,28 +37,10 @@ if [[ -d $SUMO_DIR ]];then
 	if [[ $state != "STARTED" ]];then
 		"${SUMO_DIR}/collector" start
 	fi
-elif [[ "${use_web_address_install}" == "true" ]]; then
+else
 	collector_script="${BASE_DIR}/data/SumoCollector.sh"
 	wget $web_address -O $collector_script && chmod +x $collector_script
 	
 	#Parameters( https://help.sumologic.com/03Send-Data/Installed-Collectors/05Reference-Information-for-Collector-Installation/06Parameters-for-the-Command-Line-Installer )
-	$collector_script -q -Vsumo.token_and_url=$collector_token_string -Vcollector.name=$collector_name -dir $SUMO_DIR -Vcollector.secureFiles=false -Vsources="${BASE_DIR}/data/${source_filename}"
-##
-# SumoCollector deb package too large to use in customization
-#elif [[ "${local_package_name}" == "true" ]]; then
-#	dpkg -i "${BASE_DIR}\data\${package_name}"
-#	decoded=$(echo $collector_token_string | base64 -d | sed 's/http/\nhttp/g')
-#	readarray -t settings <<<"$decoded"
-#	
-#	sumo_token=$(echo "${settings[0]}")
-#	sumo_url=$(echo "${settings[1]}")
-#	
-#	cat > "${SUMO_DIR}/config" <<- EOM
-#name=$collector_name
-#url=$sumo_url
-#token=$sumo_token
-#EOM
-#
-else
-	echo "Sumo is not installed and no install method was selected"
+	$collector_script -q -Vsumo.token_and_url=$collector_token_string -Vcollector.name=$collector_name -dir $SUMO_DIR -Vcollector.secureFiles=false -Vsources="${BASE_DIR}/data/${source_filename}" -Vephemeral $ephemeral
 fi
