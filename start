@@ -42,5 +42,5 @@ else
 	wget $web_address -O $collector_script && chmod +x $collector_script
 	
 	#Parameters( https://help.sumologic.com/03Send-Data/Installed-Collectors/05Reference-Information-for-Collector-Installation/06Parameters-for-the-Command-Line-Installer )
-	$collector_script -q -Vsumo.token_and_url=$collector_token_string -Vcollector.name=$collector_name -dir $SUMO_DIR -Vcollector.secureFiles=false -Vsources="${BASE_DIR}/data/${source_filename}" -Vephemeral $ephemeral
+	$collector_script -q -Vclobber $clobber -Vsumo.token_and_url=$collector_token_string -Vcollector.name=$collector_name -dir $SUMO_DIR -Vcollector.secureFiles=false -Vsources="${BASE_DIR}/data/${source_filename}"
 fi
