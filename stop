@@ -32,5 +32,6 @@ source "${BASE_DIR}/data/settings.config"
 logfile="${BASE_DIR}/data/logs"
 #If the status is "stopped" you can restart the Collector by running #./collector start. 
 
-
-"${SUMO_DIR}/uninstall" -q
+if [[ -f "${SUMO_DIR}/uninstall" ]];then
+	"${SUMO_DIR}/uninstall" -q
+fi
