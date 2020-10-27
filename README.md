@@ -60,6 +60,3 @@ Customization will install SumoLogic collector on the LogForwarder. This will en
 ### Optional Configuration:
 - The collector is installed with the provided source file. Any changes to the source definition will only persist if done in the ‘/data/syslog.json’ file of the customization
 - This file can also be replaced/renamed by updating line 36 in “/data/settings.config”
-
-## Note:
-When collector is reinstalled it creates a new instance with a unique id in SumoLogic. The 'source' still has the originally provided name so the data can still be aggregated in searches
